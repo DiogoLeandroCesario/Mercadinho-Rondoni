@@ -1,8 +1,12 @@
 #include <iostream>
+#include <cctype>
+#include <string>
 #include <vector>
 using namespace std;
 
-int escolha=-1;
+bool digitos = true;
+string stgEscolha;
+int escolha;
 
 struct Produto{
     string nome;
@@ -13,6 +17,15 @@ struct Produto{
 vector <Produto> estoque;
 
 vector <Produto> carrinho;
+
+void VerificarEscolha(){
+    for (char& c : stgEscolha){
+        if (!isdigit(c)){
+            digitos = false;
+            break;
+        }
+    }
+}
 
 void criaProduto(string nome,float preco, float quantidade){
     int tem = 0;
@@ -95,7 +108,8 @@ void pagarCarrinho(){
 void menu(){
     string nome;
     float preco, quantidade;
-    while (escolha !=0){
+
+    do{
 
         cout << "-------------------------------" << endl << endl;
         cout << "0 - Encerrar o Programa" << endl;
@@ -105,12 +119,19 @@ void menu(){
         cout << "4 - Listar Produtos" << endl;
         cout << "5 - Pagar o carrinho" << endl;
         cout << endl << "-------------------------------" << endl << endl;
-        cin >> escolha;
+        cin >> stgEscolha;
+
+        VerificarEscolha();
+
+        if(digitos){
+        escolha = stoi(stgEscolha);
         
         if (escolha == 1){
             cout << "Escolha um nome para o seu produto: "; cin >> nome;
             cout << "Escolha um preco para o seu produto: "; cin >> preco;
             cout << "Escolha um quantidade para o seu produto: "; cin >> quantidade;
+
+
 
             criaProduto(nome, preco, quantidade);
 
@@ -125,9 +146,19 @@ void menu(){
             listarProdutos();
         }else if (escolha == 5){
             pagarCarrinho();
+        }else if (escolha == 0){
+            break;
+        }else {
+            cout << "Escolha Invalida";
         }
+
+        }else if (digitos == false){
+            cout << "Escolha Invalida";
+            escolha = -1;
+        }
+
+    } while (escolha !=0);
     
-    }
 }
 
 int main(){
@@ -152,5 +183,4 @@ int main(){
 
 
 
-    return 0;
 }
