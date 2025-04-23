@@ -2,6 +2,8 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <fstream>
+
 using namespace std;
 
 bool digitos = true;
@@ -31,6 +33,77 @@ void LimparTexto()
     system("clear");
 #endif
 }
+
+void SalvarEstoque()
+{
+    ofstream arquivo("estoque.txt");
+
+    for (const auto &produto : estoque)
+    {
+        arquivo << produto.nome << "," << produto.preco << "," << produto.quantidade << "\n";
+    }
+
+    arquivo.close();
+}
+
+void SalvarCarrinho()
+{
+    ofstream arquivo("carrinho.txt");
+
+    for (const auto &item : carrinho)
+    {
+        arquivo << item.nome << "," << item.preco << "," << item.quantidade << "\n";
+    }
+
+    arquivo.close();
+}
+
+void CarregarEstoque()
+{
+    ifstream arquivo("estoque.txt");
+    string linha;
+
+    while (getline(arquivo, linha))
+    {
+        size_t pos1 = linha.find(',');
+        size_t pos2 = linha.rfind(',');
+
+        if (pos1 != string::npos && pos2 != string::npos && pos1 != pos2)
+        {
+            string nome = linha.substr(0, pos1);
+            float preco = stof(linha.substr(pos1 + 1, pos2 - pos1 - 1));
+            float quantidade = stof(linha.substr(pos2 + 1));
+
+            estoque.push_back({nome, preco, quantidade});
+        }
+    }
+
+    arquivo.close();
+}
+
+void CarregarCarrinho()
+{
+    ifstream arquivo("carrinho.txt");
+    string linha;
+
+    while (getline(arquivo, linha))
+    {
+        size_t pos1 = linha.find(',');
+        size_t pos2 = linha.rfind(',');
+
+        if (pos1 != string::npos && pos2 != string::npos && pos1 != pos2)
+        {
+            string nome = linha.substr(0, pos1);
+            float preco = stof(linha.substr(pos1 + 1, pos2 - pos1 - 1));
+            float quantidade = stof(linha.substr(pos2 + 1));
+
+            carrinho.push_back({nome, preco, quantidade});
+        }
+    }
+
+    arquivo.close();
+}
+
 
 void VerificarEscolha()
 {
@@ -605,5 +678,14 @@ void Menu()
 int main()
 {
     LimparTexto();
+
+    CarregarEstoque();
+    CarregarCarrinho();
+
     Menu();
+
+    SalvarEstoque();
+    SalvarCarrinho();
+
+    return 0;
 }
