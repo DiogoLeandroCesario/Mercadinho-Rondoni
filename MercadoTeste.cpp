@@ -8,8 +8,8 @@ bool digitos = true;
 bool digitosPreco = true;
 bool digitosQtdd = true;
 string stgEscolha;
-string stgPreco; 
-string stgQtdd; 
+string stgPreco;
+string stgQtdd;
 int escolha;
 
 struct Produto
@@ -23,12 +23,13 @@ vector<Produto> estoque;
 
 vector<Produto> carrinho;
 
-void LimparTexto(){
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
-    #endif
+void LimparTexto()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
 }
 
 void VerificarEscolha()
@@ -55,12 +56,12 @@ void VerificarPreco()
             {
                 countDot++;
             }
-            
+
             if (c != '.')
             {
                 countDot += 2;
             }
-            
+
             if (countDot > 1)
             {
                 digitosPreco = false;
@@ -70,11 +71,10 @@ void VerificarPreco()
         countChar++;
     }
 
-    if (countChar == 1 && countDot >=1)
+    if (countChar == 1 && countDot >= 1)
     {
         digitosPreco = false;
     }
-    
 }
 
 void VerificarQuantidade()
@@ -89,12 +89,12 @@ void VerificarQuantidade()
             {
                 countDot++;
             }
-            
+
             if (c != '.')
             {
                 countDot += 2;
             }
-            
+
             if (countDot > 1)
             {
                 digitosQtdd = false;
@@ -104,11 +104,18 @@ void VerificarQuantidade()
         countChar++;
     }
 
-    if (countChar == 1 && countDot >=1)
+    if (countChar == 1 && countDot >= 1)
     {
         digitosQtdd = false;
     }
+}
 
+string Maiusculo(string nome)
+{
+    for (char &c : nome) {
+        c = toupper(c);
+    }
+    return nome;
 }
 
 void CriaProduto(string nome, float preco, float quantidade)
@@ -118,22 +125,30 @@ void CriaProduto(string nome, float preco, float quantidade)
     {
         if (estoque[i].nome == nome)
         {
-            cout << endl << "-------------------------------" << endl << endl;
+            cout << endl
+                 << "-------------------------------" << endl
+                 << endl;
             cout << "O produto ja existe." << endl;
             estoque[i].preco = preco;
             estoque[i].quantidade += quantidade;
             tem = 1;
             cout << "Produto atualizado com sucesso" << endl;
-            cout << endl << "-------------------------------" << endl << endl;
+            cout << endl
+                 << "-------------------------------" << endl
+                 << endl;
         }
     }
 
     if (tem == 0)
     {
         estoque.push_back({nome, preco, quantidade});
-        cout << endl << "----------------------------" << endl << endl;
+        cout << endl
+             << "----------------------------" << endl
+             << endl;
         cout << "Produto criado com sucesso" << endl;
-        cout << endl << "----------------------------" << endl << endl;
+        cout << endl
+             << "----------------------------" << endl
+             << endl;
     }
 }
 
@@ -161,20 +176,27 @@ void DeletarProdutos(string nome)
         {
             estoque.erase(estoque.begin() + i);
 
-            cout << endl << "-----------------------" << endl << endl;
-            cout << "!! Produto Deletado !!" << endl; 
-            cout << endl << "-----------------------" << endl << endl;
+            cout << endl
+                 << "-----------------------" << endl
+                 << endl;
+            cout << "!! Produto Deletado !!" << endl;
+            cout << endl
+                 << "-----------------------" << endl
+                 << endl;
             encontrado = true;
         }
     }
 
     if (encontrado == false)
     {
-        cout << endl << "-----------------------------" << endl << endl;
-        cout << "!! Produto Nao Encontrado !!" << endl; 
-        cout << endl << "-----------------------------" << endl << endl;
+        cout << endl
+             << "-----------------------------" << endl
+             << endl;
+        cout << "!! Produto Nao Encontrado !!" << endl;
+        cout << endl
+             << "-----------------------------" << endl
+             << endl;
     }
-    
 }
 
 void AddCarrinho(string nome, float preco, float quantidade)
@@ -191,9 +213,13 @@ void VenderProdutos(string nome, float quantidade)
         {
             if (quantidade > estoque[i].quantidade)
             {
-                cout << endl << "-----------------------------------------" << endl << endl;
+                cout << endl
+                     << "-----------------------------------------" << endl
+                     << endl;
                 cout << "Quantidade escolhida maior que o estoque" << endl;
-                cout << endl << "-----------------------------------------" << endl << endl;
+                cout << endl
+                     << "-----------------------------------------" << endl
+                     << endl;
                 encontrado = true;
             }
             else
@@ -201,9 +227,13 @@ void VenderProdutos(string nome, float quantidade)
                 estoque[i].quantidade -= quantidade;
                 AddCarrinho(estoque[i].nome, estoque[i].preco, quantidade);
 
-                cout << endl << "-------------------------------------" << endl << endl;
-                cout << "!! Produto Adicionado ao Carrinho !!" << endl; 
-                cout << endl << "-------------------------------------" << endl << endl;
+                cout << endl
+                     << "-------------------------------------" << endl
+                     << endl;
+                cout << "!! Produto Adicionado ao Carrinho !!" << endl;
+                cout << endl
+                     << "-------------------------------------" << endl
+                     << endl;
                 encontrado = true;
             }
         }
@@ -211,14 +241,18 @@ void VenderProdutos(string nome, float quantidade)
 
     if (encontrado == false)
     {
-        cout << endl << "-----------------------------" << endl << endl;
-        cout << "!! Produto Nao Encontrado !!" << endl; 
-        cout << endl << "-----------------------------" << endl << endl;   
+        cout << endl
+             << "-----------------------------" << endl
+             << endl;
+        cout << "!! Produto Nao Encontrado !!" << endl;
+        cout << endl
+             << "-----------------------------" << endl
+             << endl;
     }
-
 }
 
-void PagarCarrinho()
+void 
+PagarCarrinho()
 {
     int escolhaCarrinho;
     float precoTotal = 0;
@@ -236,14 +270,15 @@ void PagarCarrinho()
         precoTotal += (carrinho[i].preco * carrinho[i].quantidade);
     }
 
-    cout << "O preco total dos produtos eh: " << precoTotal << endl << endl;
+    cout << "O preco total dos produtos eh: " << precoTotal << endl
+         << endl;
 
-        cout << "Voce quer pagar?" << endl;
-        cout << "1 - Sim || 0 - Nao" << endl;
-        cin >> stgEscolha;
+    cout << "Voce quer pagar?" << endl;
+    cout << "1 - Sim || 0 - Nao" << endl;
+    cin >> stgEscolha;
 
-        VerificarEscolha();
-        LimparTexto();
+    VerificarEscolha();
+    LimparTexto();
 
     if (digitos)
     {
@@ -265,12 +300,17 @@ void PagarCarrinho()
 
                 if (escolhaCarrinho == 1)
                 {
-                    cout << endl << "---------------------------------------" << endl << endl;
-                    cout << "O preco dos produtos ficou em: " << precoTotal*0.95 << endl;
-                    cout << endl << "---------------------------------------" << endl << endl;
+                    cout << endl
+                         << "---------------------------------------" << endl
+                         << endl;
+                    cout << "O preco dos produtos ficou em: " << precoTotal * 0.95 << endl;
+                    cout << endl
+                         << "---------------------------------------" << endl
+                         << endl;
 
                     carrinho.clear();
-                }else if (escolhaCarrinho == 2)
+                }
+                else if (escolhaCarrinho == 2)
                 {
                     cout << "Ate 3x sem juros ou ate 12x com 10% de juros" << endl;
                     cout << "Em quantas parcelas voce ira querer fazer? " << endl;
@@ -283,86 +323,122 @@ void PagarCarrinho()
                     {
                         escolhaCarrinho = stoi(stgEscolha);
 
-                        if (escolhaCarrinho >= 1 && escolhaCarrinho <=12)
+                        if (escolhaCarrinho >= 1 && escolhaCarrinho <= 12)
                         {
                             if (escolhaCarrinho <= 3)
                             {
-                                cout << endl << "---------------------------------------" << endl << endl;
+                                cout << endl
+                                     << "---------------------------------------" << endl
+                                     << endl;
                                 cout << "O preco dos produtos ficou em: " << precoTotal << endl;
-                                cout << "O preco da parcela ficou em: " << precoTotal/escolhaCarrinho << endl;
-                                cout << endl << "---------------------------------------" << endl << endl;
-
-                                carrinho.clear();
-                            }else
-                            {
-                                cout << endl << "---------------------------------------" << endl << endl;
-                                cout << "O preco dos produtos ficou em: " << precoTotal*1.1 << endl;
-                                cout << "O preco da parcela ficou em: " << (precoTotal*1.1)/escolhaCarrinho << endl;
-                                cout << endl << "---------------------------------------" << endl << endl;
+                                cout << "O preco da parcela ficou em: " << precoTotal / escolhaCarrinho << endl;
+                                cout << endl
+                                     << "---------------------------------------" << endl
+                                     << endl;
 
                                 carrinho.clear();
                             }
-                            
-                        }else {
-                            cout << endl << "----------------------------------" << endl << endl;
+                            else
+                            {
+                                cout << endl
+                                     << "---------------------------------------" << endl
+                                     << endl;
+                                cout << "O preco dos produtos ficou em: " << precoTotal * 1.1 << endl;
+                                cout << "O preco da parcela ficou em: " << (precoTotal * 1.1) / escolhaCarrinho << endl;
+                                cout << endl
+                                     << "---------------------------------------" << endl
+                                     << endl;
+
+                                carrinho.clear();
+                            }
+                        }
+                        else
+                        {
+                            cout << endl
+                                 << "----------------------------------" << endl
+                                 << endl;
                             cout << "Escolha Invalida!" << endl;
                             cout << "!! Escolha um Numero de 1 a 12 !!" << endl;
-                            cout << endl << "----------------------------------" << endl << endl;
+                            cout << endl
+                                 << "----------------------------------" << endl
+                                 << endl;
                         }
-                        
-                    }else {
-                        cout << endl << "---------------------------------------" << endl << endl;
+                    }
+                    else
+                    {
+                        cout << endl
+                             << "---------------------------------------" << endl
+                             << endl;
                         cout << "Escolha Invalida!" << endl;
                         cout << "Nao utilize virgulas nem coloque ponto" << endl;
-                        cout << endl << "---------------------------------------" << endl << endl;
-        
+                        cout << endl
+                             << "---------------------------------------" << endl
+                             << endl;
+
                         escolha = -1;
                         escolhaCarrinho = -1;
                         digitos = true;
                     }
-                    
 
                     carrinho.clear();
-                }else {
-                    cout << endl << "------------------" << endl << endl;
-                    cout << "Escolha Invalida!" << endl;
-                    cout << endl << "------------------" << endl << endl;
                 }
-                
-                
-            }else {
-                cout << endl << "---------------------------------------" << endl << endl;
+                else
+                {
+                    cout << endl
+                         << "------------------" << endl
+                         << endl;
+                    cout << "Escolha Invalida!" << endl;
+                    cout << endl
+                         << "------------------" << endl
+                         << endl;
+                }
+            }
+            else
+            {
+                cout << endl
+                     << "---------------------------------------" << endl
+                     << endl;
                 cout << "Escolha Invalida!" << endl;
                 cout << "Nao utilize virgulas nem coloque ponto" << endl;
-                cout << endl << "---------------------------------------" << endl << endl;
+                cout << endl
+                     << "---------------------------------------" << endl
+                     << endl;
 
                 escolha = -1;
                 escolhaCarrinho = -1;
                 digitos = true;
             }
-            
-        }else if (escolhaCarrinho == 0)
-        {
-            //Saiu do carrinho
-        }else {
-            cout << endl << "------------------" << endl << endl;
-            cout << "Escolha Invalida!" << endl;
-            cout << endl << "------------------" << endl << endl;
         }
-        
-        
-    }else {
-        cout << endl << "---------------------------------------" << endl << endl;
+        else if (escolhaCarrinho == 0)
+        {
+            // Saiu do carrinho
+        }
+        else
+        {
+            cout << endl
+                 << "------------------" << endl
+                 << endl;
+            cout << "Escolha Invalida!" << endl;
+            cout << endl
+                 << "------------------" << endl
+                 << endl;
+        }
+    }
+    else
+    {
+        cout << endl
+             << "---------------------------------------" << endl
+             << endl;
         cout << "Escolha Invalida!" << endl;
         cout << "Nao utilize virgulas nem coloque ponto" << endl;
-        cout << endl << "---------------------------------------" << endl << endl;
+        cout << endl
+             << "---------------------------------------" << endl
+             << endl;
 
         escolha = -1;
         escolhaCarrinho = -1;
         digitos = true;
     }
-
-
 }
 
 void Menu()
@@ -373,14 +449,18 @@ void Menu()
     do
     {
 
-        cout << endl << "-----------------------------" << endl << endl;
-        cout << "0 - Encerrar o Programa" << endl;
+        cout << endl
+             << "--------------------------------" << endl
+             << endl;
+        cout << "0 - Encerrar/Salvar o Programa" << endl;
         cout << "1 - Criar/Atualizar Produtos" << endl;
         cout << "2 - Deletar Produtos" << endl;
         cout << "3 - Adicionar ao Carrinho" << endl;
         cout << "4 - Listar Estoque" << endl;
         cout << "5 - Pagar o Carrinho" << endl;
-        cout << endl << "-----------------------------" << endl << endl;
+        cout << endl
+             << "--------------------------------" << endl
+             << endl;
         cin >> stgEscolha;
 
         VerificarEscolha();
@@ -398,6 +478,8 @@ void Menu()
                 cin >> stgPreco;
                 cout << "Qual a quantidade do produto:" << endl;
                 cin >> stgQtdd;
+                
+                nome = Maiusculo(nome);
 
                 LimparTexto();
                 VerificarPreco();
@@ -408,23 +490,29 @@ void Menu()
                     preco = stof(stgPreco);
                     quantidade = stof(stgQtdd);
                     CriaProduto(nome, preco, quantidade);
-                }else {
-                    cout << endl << "--------------------------------------------------" << endl << endl;
+                }
+                else
+                {
+                    cout << endl
+                         << "--------------------------------------------------" << endl
+                         << endl;
                     cout << "Escolha Invalida!" << endl;
                     cout << "Nao utilize virgulas nem coloque mais de um ponto" << endl;
-                    cout << endl << "--------------------------------------------------" << endl << endl;
+                    cout << endl
+                         << "--------------------------------------------------" << endl
+                         << endl;
 
                     escolha = -1;
                     digitosQtdd = true;
                     digitosPreco = true;
                 }
-                
-                
             }
             else if (escolha == 2)
             {
-                cout << "Qual produto voce quer deletar?" << endl; 
+                cout << "Qual produto voce quer deletar?" << endl;
                 cin >> nome;
+
+                nome = Maiusculo(nome);
 
                 LimparTexto();
 
@@ -437,6 +525,8 @@ void Menu()
                 cout << "Qual a quantidade voce ira colocar? ";
                 cin >> stgQtdd;
 
+                nome = Maiusculo(nome);
+
                 VerificarQuantidade();
                 LimparTexto();
 
@@ -444,18 +534,22 @@ void Menu()
                 {
                     quantidade = stof(stgQtdd);
                     VenderProdutos(nome, quantidade);
-
-                }else {
-                    cout << endl << "--------------------------------------------------" << endl << endl;
+                }
+                else
+                {
+                    cout << endl
+                         << "--------------------------------------------------" << endl
+                         << endl;
                     cout << "Escolha Invalida!" << endl;
                     cout << "Nao utilize virgulas nem coloque mais de um ponto" << endl;
-                    cout << endl << "--------------------------------------------------" << endl << endl;
+                    cout << endl
+                         << "--------------------------------------------------" << endl
+                         << endl;
 
                     escolha = -1;
                     digitosQtdd = true;
                     digitosPreco = true;
                 }
-
             }
             else if (escolha == 4)
             {
@@ -469,26 +563,38 @@ void Menu()
             }
             else if (escolha == 0)
             {
-                cout << endl << "-------------------------" << endl << endl;
+                cout << endl
+                     << "-------------------------" << endl
+                     << endl;
                 cout << "!! Programa Encerrado !!" << endl;
                 cout << "!! Alteracoes Salvas !!" << endl;
-                cout << endl << "-------------------------" << endl << endl;
+                cout << endl
+                     << "-------------------------" << endl
+                     << endl;
 
                 break;
             }
             else
             {
-                cout << endl << "-----------------" << endl << endl;
+                cout << endl
+                     << "-----------------" << endl
+                     << endl;
                 cout << "Escolha Invalida" << endl;
-                cout << endl << "-----------------" << endl << endl;
+                cout << endl
+                     << "-----------------" << endl
+                     << endl;
             }
         }
         else if (digitos == false)
         {
-            cout << endl << "-----------------" << endl << endl;
+            cout << endl
+                 << "-----------------" << endl
+                 << endl;
             cout << "Escolha Invalida" << endl;
-            cout << endl << "-----------------" << endl << endl;
-            
+            cout << endl
+                 << "-----------------" << endl
+                 << endl;
+
             escolha = -1;
             digitos = true;
         }
